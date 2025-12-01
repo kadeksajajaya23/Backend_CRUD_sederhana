@@ -77,4 +77,19 @@ class Buku {
         if ($stmt->execute()) { return true; }
         return false;
     }
+    public function delete() {
+        $this->readOne();
+        $cover_lama = $this->cover;
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id);
+        if ($stmt->execute()) {
+            if(!empty($cover_lama) && file_exists("uploads/" . $cover_lama)){
+                unlink("uploads/" . $cover_lama);
+            }
+            return true;
+        }
+        return false;
+    }
 }
+?>
