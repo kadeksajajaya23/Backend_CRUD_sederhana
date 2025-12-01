@@ -56,4 +56,25 @@ class Buku {
         if ($stmt->execute()) { return true; }
         return false;
     }
+    public function update() {
+        $query = "UPDATE " . $this->table_name . " SET judul=:judul, penulis=:penulis, tahun_terbit=:tahun, genre=:genre, cover=:cover WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+
+        $this->judul = htmlspecialchars(strip_tags($this->judul));
+        $this->penulis = htmlspecialchars(strip_tags($this->penulis));
+        $this->tahun_terbit = htmlspecialchars(strip_tags($this->tahun_terbit));
+        $this->genre = htmlspecialchars(strip_tags($this->genre));
+        $this->cover = htmlspecialchars(strip_tags($this->cover));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $stmt->bindParam(":judul", $this->judul);
+        $stmt->bindParam(":penulis", $this->penulis);
+        $stmt->bindParam(":tahun", $this->tahun_terbit);
+        $stmt->bindParam(":genre", $this->genre);
+        $stmt->bindParam(":cover", $this->cover);
+        $stmt->bindParam(":id", $this->id);
+
+        if ($stmt->execute()) { return true; }
+        return false;
+    }
 }
